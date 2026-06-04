@@ -1,12 +1,12 @@
 'use client'
 
-import { LayoutDashboard, Users, Gift, Zap, TrendingUp, Upload } from 'lucide-react'
+import { LayoutDashboard, Users, Gift, Zap, TrendingUp, Upload, MessageCircle } from 'lucide-react'
 
 const menuItems = [
   {
     category: 'OVERVIEW',
     items: [
-      { icon: LayoutDashboard, label: 'Dashboard', active: true },
+      { icon: LayoutDashboard, label: 'Dashboard' },
       { icon: Users, label: 'Customers', badge: '2.3k' },
     ]
   },
@@ -20,7 +20,7 @@ const menuItems = [
   {
     category: 'AI TOOLS',
     items: [
-      { icon: Zap, label: 'AI Copilot' },
+      { icon: MessageCircle, label: 'AI Copilot' },
       { icon: TrendingUp, label: 'Predictions' },
     ]
   },
@@ -33,7 +33,12 @@ const menuItems = [
   },
 ]
 
-export default function Sidebar() {
+interface SidebarProps {
+  activeMenu: string
+  onMenuClick: (menu: string) => void
+}
+
+export default function Sidebar({ activeMenu, onMenuClick }: SidebarProps) {
   return (
     <aside className="w-56 bg-white border-r border-gray-200 p-6 overflow-y-auto">
       {/* Logo */}
@@ -56,11 +61,13 @@ export default function Sidebar() {
           <nav className="space-y-1">
             {section.items.map((item, itemIdx) => {
               const Icon = item.icon
+              const isActive = activeMenu === item.label
               return (
                 <button
                   key={itemIdx}
+                  onClick={() => onMenuClick(item.label)}
                   className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                    item.active
+                    isActive
                       ? 'bg-amber-50 text-amber-600'
                       : 'text-gray-600 hover:bg-gray-100'
                   }`}
